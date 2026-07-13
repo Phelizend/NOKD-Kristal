@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nokd demo - Мод на Deltarune</title>
+    <style>
+        /* === ПОДКЛЮЧЕНИЕ ШРИФТОВ === */
+
+        /* Шрифт 1: Для логотипа, deltarune и kristal */
+        @font-face {
+            font-family: 'FontLogo';
+            src: url('font1.ttf') format('truetype'); /* Имя вашего первого файла */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Шрифт 2: Для всего остального текста и кнопки */
+        @font-face {
+            font-family: 'FontMain';
+            src: url('font2.ttf') format('truetype'); /* Имя вашего второго файла */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* === НАСТРОЙКА МАСШТАБИРОВАНИЯ === */
+
+        /* Базовый размер для мобильных устройств */
+        html {
+            font-size: 16px;
+        }
+
+        /* Настройка масштаба для ПК */
+        @media (min-width: 1024px) and (min-aspect-ratio: 1/1) {
+            html {
+                font-size: 3.2vmin; /* Оптимальный крупный масштаб */
+            }
+        }
+
+        /* === БАЗОВЫЕ СТИЛИ === */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #000000;
+            /* Крупная фиолетовая сетка */
+            background-image: 
+                linear-gradient(rgba(148, 0, 211, 0.3) 0.15rem, transparent 0.15rem),
+                linear-gradient(90deg, rgba(148, 0, 211, 0.3) 0.15rem, transparent 0.15rem);
+            background-size: 3rem 3rem;
+            background-repeat: repeat;
+            color: #ffffff;
+            font-family: 'FontMain', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden; /* Скрываем горизонтальный скролл */
+            overflow-y: auto;   /* Вертикальный скролл появится только при сильном уменьшении окна */
+        }
+
+        /* Плавное движение сетки по диагонали */
+        @keyframes scrollGrid {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: -3rem -3rem;
+            }
+        }
+
+        /* Главный контейнер (центрирует контент) */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Центрируем весь контент строго вертикально */
+            width: 100%;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            text-align: center;
+        }
+
+        @media (min-width: 1024px) and (min-aspect-ratio: 1/1) {
+            body {
+                animation: scrollGrid 12s linear infinite;
+            }
+        }
+
+        /* Версия зафиксирована в левом верхнем углу экрана */
+        .demo-ver {
+            color: #888888;
+            font-size: 0.95rem;
+            z-index: 10;
+        }
+
+        @media (min-width: 1024px) and (min-aspect-ratio: 1/1) {
+            .demo-ver {
+                position: fixed;
+                top: 1.5rem;
+                left: 1.5rem;
+            }
+        }
+
+        /* Центральный блок контента */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Шрифт 1 применяется к логотипу и выделенным фразам */
+        .logo,
+        .font-logo-style {
+            font-family: 'FontLogo', monospace;
+        }
+
+        /* Текстовый логотип с индивидуальной расцветкой для букв */
+        .logo {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            user-select: none;
+            text-transform: lowercase;
+            letter-spacing: 0.05rem;
+        }
+
+        /* Цвета букв (ваш шрифт сделает их блоками) */
+        .char-n { color: #888888; }
+        .char-o { color: #ffff00; }
+        .char-k { color: #00a2ff; }
+        .char-d { color: #ff0000; }
+        .char-demo { color: #888888; }
+
+        /* Подзаголовки */
+        .subtitle-1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #ffffff;
+        }
+
+        .subtitle-2 {
+            font-size: 1.0rem;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .subtitle-3 {
+            font-size: 1.0rem;
+            color: #ffffff;
+            margin-bottom: 2.0rem;
+        }
+
+        /* Кнопка "Установить" */
+        .btn-install {
+            display: inline-block;
+            background-color: #00e600;
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'FontMain', monospace;
+            font-size: 2.0rem;
+            padding: 1.1rem 3.5rem;
+            border: 0.4rem solid #009900;
+            border-radius: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+            margin-bottom: 1.0rem;
+        }
+
+        .btn-install:hover {
+            background-color: #1aff1a;
+            transform: scale(1.03);
+        }
+
+        .btn-install:active {
+            transform: scale(0.97);
+        }
+
+        .warning-text {
+            color: #ffcc00;
+            font-size: 0.8rem;
+            margin-bottom: 0.6rem;
+            text-transform: lowercase;
+        }
+
+        .link-kristal {
+            color: #00ffff;
+            font-size: 0.8rem;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .link-kristal:hover {
+            color: #ffffff;
+        }
+
+        /* Подвал */
+        .footer {
+            width: 100%;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-top: 2.5rem;
+        }
+
+        .footer-left {
+            text-align: center;
+        }
+
+        .footer-left .yellow-title {
+            color: #ffff00;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .footer-left .yellow-sub {
+            color: #ffff00;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .footer-right {
+            text-align: center;
+        }
+
+        .footer-right .yellow-text {
+            color: #ffff00;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        /* === ФИКСАЦИЯ ПОДВАЛА В УГЛАХ НА ПК === */
+        @media (min-width: 1024px) and (min-aspect-ratio: 1/1) {
+            .footer {
+                margin-top: 0;
+            }
+            /* Левый нижний угол */
+            .footer-left {
+                position: fixed;
+                bottom: 1.5rem;
+                left: 1.5rem;
+                text-align: left;
+                z-index: 10;
+            }
+            /* Правый нижний угол */
+            .footer-right {
+                position: fixed;
+                bottom: 1.5rem;
+                right: 1.5rem;
+                text-align: right;
+                z-index: 10;
+            }
+        }
+
+        /* Мобильная адаптация (на телефонах всё выстраивается в один столбец, чтобы не перекрывать друг друга) */
+        @media (max-width: 1023px) {
+            .container {
+                justify-content: flex-start;
+                padding-top: 3rem;
+            }
+            .logo {
+                font-size: 1.9rem;
+            }
+            .subtitle-1 {
+                font-size: 1.1rem;
+            }
+            .subtitle-2, .subtitle-3 {
+                font-size: 0.8rem;
+            }
+            .btn-install {
+                font-size: 1.3rem;
+                padding: 0.8rem 2.0rem;
+            }
+            .footer {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+                text-align: center;
+                margin-top: 2rem;
+            }
+            .footer-left, .footer-right {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Метка версии -->
+        <div class="demo-ver">demo ver. 1</div>
+
+        <!-- Центрированная часть -->
+        <div class="main-content">
+            <!-- Текстовый логотип -->
+            <div class="logo">
+                <span class="char-n">n</span><span class="char-o">O</span><span class="char-k">k</span><span class="char-d">d</span><span class="char-demo"> demo</span>
+            </div>
+
+            <!-- Подзаголовок 1 -->
+            <div class="subtitle-1">
+                Мод на <span class="font-logo-style">deltarune</span>
+            </div>
+
+            <!-- Подзаголовок 2 -->
+            <div class="subtitle-2">
+                создано с помощью <span class="font-logo-style">kristal (nightly ver)</span>
+            </div>
+
+            <!-- Подзаголовок 3 -->
+            <div class="subtitle-3">
+                DELTARUNE by Toby Fox
+            </div>
+
+            <!-- Кнопка установки -->
+            <a href="nokd_demo.rar" download="nokd_demo.rar" class="btn-install">Установить</a>
+
+            <!-- Предупреждение и ссылка -->
+            <div class="warning-text">установите офиц. версию kristal nightly release!</div>
+            <a href="https://kristal.cc/wiki/downloading" target="_blank" class="link-kristal">https://kristal.cc/wiki/downloading</a>
+        </div>
+
+        <!-- Подвал -->
+        <div class="footer">
+            <div class="footer-left">
+                <span class="yellow-title">Website</span>
+                <span class="yellow-sub">by Phelizen</span>
+            </div>
+            <div class="footer-right">
+                <span class="yellow-text">Разработчики мода</span>
+                Sonywp (кодинг + спрайты)<br>
+                Alexey99777 (спрайты)
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
