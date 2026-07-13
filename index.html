@@ -60,7 +60,7 @@
             align-items: center;
             justify-content: center;
             overflow-x: hidden; /* Скрываем горизонтальный скролл */
-            overflow-y: auto;   /* Вертикальный скролл появится только при сильном уменьшении окна */
+            overflow-y: auto;   /* Вертикальный скролл при уменьшении окна */
         }
 
         /* Плавное движение сетки по диагонали */
@@ -121,7 +121,7 @@
             font-family: 'FontLogo', monospace;
         }
 
-        /* Текстовый логотип с индивидуальной расцветкой для букв */
+        /* Текстовый логотип */
         .logo {
             font-size: 3.2rem;
             margin-bottom: 1.5rem;
@@ -157,7 +157,7 @@
             margin-bottom: 2.0rem;
         }
 
-        /* Кнопка "Установить" */
+        /* Кнопка "Установить" (уголки теперь прямоугольные) */
         .btn-install {
             display: inline-block;
             background-color: #00e600;
@@ -167,7 +167,7 @@
             font-size: 2.0rem;
             padding: 1.1rem 3.5rem;
             border: 0.4rem solid #009900;
-            border-radius: 0.9rem;
+            border-radius: 0; /* Убрано закругление по углам */
             cursor: pointer;
             transition: transform 0.1s ease, background-color 0.2s ease;
             margin-bottom: 1.0rem;
@@ -258,7 +258,7 @@
             }
         }
 
-        /* Мобильная адаптация (на телефонах всё выстраивается в один столбец, чтобы не перекрывать друг друга) */
+        /* Мобильная адаптация */
         @media (max-width: 1023px) {
             .container {
                 justify-content: flex-start;
@@ -301,7 +301,7 @@
         <div class="main-content">
             <!-- Текстовый логотип -->
             <div class="logo">
-                <span class="char-n">n</span><span class="char-o">O</span><span class="char-k">k</span><span class="char-d">d</span><span class="char-demo"> demo</span>
+                <span class="char-n">n</span><span class="char-o">o</span><span class="char-k">k</span><span class="char-d">d</span><span class="char-demo"> demo</span>
             </div>
 
             <!-- Подзаголовок 1 -->
@@ -311,7 +311,7 @@
 
             <!-- Подзаголовок 2 -->
             <div class="subtitle-2">
-                создано с помощью <span class="font-logo-style">kristal (nightly ver)</span>
+                создано с помощью <span class="font-logo-style">kristal</span>
             </div>
 
             <!-- Подзаголовок 3 -->
@@ -323,7 +323,7 @@
             <a href="nokd_demo.rar" download="nokd_demo.rar" class="btn-install">Установить</a>
 
             <!-- Предупреждение и ссылка -->
-            <div class="warning-text">установите офиц. версию kristal nightly release!</div>
+            <div class="warning-text">установите офиц. версию kristal!</div>
             <a href="https://kristal.cc/wiki/downloading" target="_blank" class="link-kristal">https://kristal.cc/wiki/downloading</a>
         </div>
 
